@@ -14,8 +14,10 @@ library(scales)
 
 dados <- readr::read_csv2("../data-raw/Desp_ativos.csv") |> 
   janitor::clean_names()  |> dplyr::mutate(
-    Ano = as.factor(ano)
-  )
+    Ano = as.factor(ano)  
+  )|>
+  dplyr::rename(`Servidores Ativos` = ativos, 
+                `Desp. Liquidadada (R$ Bi)` = desp_liq)
    
 
 
@@ -25,11 +27,15 @@ dados <- readr::read_csv2("../data-raw/Desp_ativos.csv") |>
 
 library(echarts4r)
 dados |> 
-  dplyr::mutate( ano = as.factor(ano)) |>
-  echarts4r::e_charts(ano) |> 
-  echarts4r::e_bar(serie = desp_liq) |> 
-  echarts4r::e_line(ativos, y_index = 1) |>  # add secondary axis
-  echarts4r::e_y_axis(formatter = e_axis_formatter("currency")) 
+  echarts4r::e_charts(Ano) |> 
+  echarts4r::e_bar(serie = `Desp. Liquidadada (R$ Bi)`) |> 
+  echarts4r::e_line(`Servidores Ativos`, y_index = 1) |>  # add secondary axis
+  echarts4r::e_y_axis(formatter = e_axis_formatter("currency")) |> 
+  echarts4r::e_title("Poder Executivo Civil", "Servidores x Despesas") |>  # Add title & subtitle
+  echarts4r::e_theme("infographic") |>  # theme
+  echarts4r::e_legend(right = 0) |>  # move legend to the bottom
+  echarts4r::e_tooltip(trigger = "axis") # tooltip
+  
   
 
 ```

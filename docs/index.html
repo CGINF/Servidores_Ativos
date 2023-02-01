@@ -1654,6 +1654,243 @@ if (HTMLWidgets.shinyMode) {
   
 }
 </script>
+<script>/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
+(function(root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['exports', 'echarts'], factory);
+    } else if (
+        typeof exports === 'object' &&
+        typeof exports.nodeName !== 'string'
+    ) {
+        // CommonJS
+        factory(exports, require('echarts/lib/echarts'));
+    } else {
+        // Browser globals
+        factory({}, root.echarts);
+    }
+})(this, function(exports, echarts) {
+    var log = function(msg) {
+        if (typeof console !== 'undefined') {
+            console && console.error && console.error(msg);
+        }
+    };
+    if (!echarts) {
+        log('ECharts is not Loaded');
+        return;
+    }
+
+    var colorPalette = [
+        '#C1232B',
+        '#27727B',
+        '#FCCE10',
+        '#E87C25',
+        '#B5C334',
+        '#FE8463',
+        '#9BCA63',
+        '#FAD860',
+        '#F3A43B',
+        '#60C0DD',
+        '#D7504B',
+        '#C6E579',
+        '#F4E001',
+        '#F0805A',
+        '#26C0C0'
+    ];
+
+    var theme = {
+        color: colorPalette,
+
+        title: {
+            textStyle: {
+                fontWeight: 'normal',
+                color: '#27727B'
+            }
+        },
+
+        visualMap: {
+            color: ['#C1232B', '#FCCE10']
+        },
+
+        toolbox: {
+            iconStyle: {
+                normal: {
+                    borderColor: colorPalette[0]
+                }
+            }
+        },
+
+        tooltip: {
+            backgroundColor: 'rgba(50,50,50,0.5)',
+            axisPointer: {
+                type: 'line',
+                lineStyle: {
+                    color: '#27727B',
+                    type: 'dashed'
+                },
+                crossStyle: {
+                    color: '#27727B'
+                },
+                shadowStyle: {
+                    color: 'rgba(200,200,200,0.3)'
+                }
+            }
+        },
+
+        dataZoom: {
+            dataBackgroundColor: 'rgba(181,195,52,0.3)',
+            fillerColor: 'rgba(181,195,52,0.2)',
+            handleColor: '#27727B'
+        },
+
+        categoryAxis: {
+            axisLine: {
+                lineStyle: {
+                    color: '#27727B'
+                }
+            },
+            splitLine: {
+                show: false
+            }
+        },
+
+        valueAxis: {
+            axisLine: {
+                show: false
+            },
+            splitArea: {
+                show: false
+            },
+            splitLine: {
+                lineStyle: {
+                    color: ['#ccc'],
+                    type: 'dashed'
+                }
+            }
+        },
+
+        timeline: {
+            itemStyle: {
+                color: '#27727B'
+            },
+            lineStyle: {
+                color: '#27727B'
+            },
+            controlStyle: {
+                color: '#27727B',
+                borderColor: '#27727B'
+            },
+            symbol: 'emptyCircle',
+            symbolSize: 3
+        },
+
+        line: {
+            itemStyle: {
+                borderWidth: 2,
+                borderColor: '#fff',
+                lineStyle: {
+                    width: 3
+                },
+                emphasis: {
+                    borderWidth: 0
+                }
+            },
+            symbol: 'circle',
+            symbolSize: 3.5
+        },
+
+        candlestick: {
+            itemStyle: {
+                color: '#c1232b',
+                color0: '#b5c334'
+            },
+            lineStyle: {
+                width: 1,
+                color: '#c1232b',
+                color0: '#b5c334'
+            },
+            areaStyle: {
+                color: '#c1232b',
+                color0: '#27727b'
+            }
+        },
+
+        graph: {
+            itemStyle: {
+                color: '#c1232b'
+            },
+            linkStyle: {
+                color: '#b5c334'
+            }
+        },
+
+        map: {
+            itemStyle: {
+                color: '#f2385a',
+                areaColor: '#ddd',
+                borderColor: '#eee'
+            },
+            areaStyle: {
+                color: '#fe994e'
+            },
+            label: {
+                color: '#c1232b'
+            }
+        },
+
+        gauge: {
+            axisLine: {
+                lineStyle: {
+                    color: [
+                        [0.2, '#B5C334'],
+                        [0.8, '#27727B'],
+                        [1, '#C1232B']
+                    ]
+                }
+            },
+            axisTick: {
+                splitNumber: 2,
+                length: 5,
+                lineStyle: {
+                    color: '#fff'
+                }
+            },
+            axisLabel: {
+                color: '#fff'
+            },
+            splitLine: {
+                length: '5%',
+                lineStyle: {
+                    color: '#fff'
+                }
+            },
+            title: {
+                offsetCenter: [0, -20]
+            }
+        }
+    };
+
+    echarts.registerTheme('infographic', theme);
+});
+</script>
 <style type="text/css">
 /*
   CSS for flexdashboard.js' use of Sly(). The sizing/position of this CSS needs to be
@@ -3470,8 +3707,8 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="htmlwidget-6e7c292d722a41edfe63" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6e7c292d722a41edfe63">{"x":{"theme":"","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true,"axisLabel":{"formatter":"function(value, index) {\n        var fmt = new Intl.NumberFormat('en', {\"style\":\"currency\",\"minimumFractionDigits\":0,\"maximumFractionDigits\":0,\"currency\":\"USD\"});\n        return fmt.format(value);\n    }"}},{"type":"value"}],"xAxis":[{"data":["1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"],"type":"category","boundaryGap":true}],"legend":{"data":["desp_liq","ativos"]},"series":[{"data":[{"value":["1998","12.65"]},{"value":["1999","14.91"]},{"value":["2000","16.22"]},{"value":["2001","17.19"]},{"value":["2002","19.65"]},{"value":["2003","20.63"]},{"value":["2004","25.72"]},{"value":["2005","26.49"]},{"value":["2006","30.81"]},{"value":["2007","35.23"]},{"value":["2008","40.96"]},{"value":["2009","48.62"]},{"value":["2010","55.59"]},{"value":["2011","60.29"]},{"value":["2012","62.19"]},{"value":["2013","68.64"]},{"value":["2014","74.15"]},{"value":["2015","80.57"]},{"value":["2016","83.53"]},{"value":["2017","92.50"]},{"value":["2018","93.88"]},{"value":["2019","94.24"]},{"value":["2020","94.09"]},{"value":["2021","95.61"]}],"name":"desp_liq","type":"bar","yAxisIndex":0,"xAxisIndex":0,"coordinateSystem":"cartesian2d"},{"data":[{"value":["1998","513720"]},{"value":["1999","497125"]},{"value":["2000","486912"]},{"value":["2001","485303"]},{"value":["2002","485741"]},{"value":["2003","485980"]},{"value":["2004","499138"]},{"value":["2005","508963"]},{"value":["2006","528124"]},{"value":["2007","528320"]},{"value":["2008","545241"]},{"value":["2009","562264"]},{"value":["2010","580352"]},{"value":["2011","585119"]},{"value":["2012","590843"]},{"value":["2013","602695"]},{"value":["2014","624095"]},{"value":["2015","627427"]},{"value":["2016","632485"]},{"value":["2017","634157"]},{"value":["2018","630689"]},{"value":["2019","607833"]},{"value":["2020","599852"]},{"value":["2021","583674"]}],"yAxisIndex":1,"xAxisIndex":0,"name":"ativos","type":"line","coordinateSystem":"cartesian2d"}]},"dispose":true},"evals":["opts.yAxis.0.axisLabel.formatter"],"jsHooks":[]}</script>
+<div id="htmlwidget-0497add68a2bf614aa3f" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0497add68a2bf614aa3f">{"x":{"theme":"infographic","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true,"axisLabel":{"formatter":"function(value, index) {\n        var fmt = new Intl.NumberFormat('en', {\"style\":\"currency\",\"minimumFractionDigits\":0,\"maximumFractionDigits\":0,\"currency\":\"USD\"});\n        return fmt.format(value);\n    }"}},{"type":"value"}],"xAxis":[{"data":["1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"],"type":"category","boundaryGap":true}],"legend":{"data":["Desp. Liquidadada (R$ Bi)","Servidores Ativos"],"show":true,"type":"plain","right":0},"series":[{"data":[{"value":["1998","12.65"]},{"value":["1999","14.91"]},{"value":["2000","16.22"]},{"value":["2001","17.19"]},{"value":["2002","19.65"]},{"value":["2003","20.63"]},{"value":["2004","25.72"]},{"value":["2005","26.49"]},{"value":["2006","30.81"]},{"value":["2007","35.23"]},{"value":["2008","40.96"]},{"value":["2009","48.62"]},{"value":["2010","55.59"]},{"value":["2011","60.29"]},{"value":["2012","62.19"]},{"value":["2013","68.64"]},{"value":["2014","74.15"]},{"value":["2015","80.57"]},{"value":["2016","83.53"]},{"value":["2017","92.50"]},{"value":["2018","93.88"]},{"value":["2019","94.24"]},{"value":["2020","94.09"]},{"value":["2021","95.61"]}],"name":"Desp. Liquidadada (R$ Bi)","type":"bar","yAxisIndex":0,"xAxisIndex":0,"coordinateSystem":"cartesian2d"},{"data":[{"value":["1998","513720"]},{"value":["1999","497125"]},{"value":["2000","486912"]},{"value":["2001","485303"]},{"value":["2002","485741"]},{"value":["2003","485980"]},{"value":["2004","499138"]},{"value":["2005","508963"]},{"value":["2006","528124"]},{"value":["2007","528320"]},{"value":["2008","545241"]},{"value":["2009","562264"]},{"value":["2010","580352"]},{"value":["2011","585119"]},{"value":["2012","590843"]},{"value":["2013","602695"]},{"value":["2014","624095"]},{"value":["2015","627427"]},{"value":["2016","632485"]},{"value":["2017","634157"]},{"value":["2018","630689"]},{"value":["2019","607833"]},{"value":["2020","599852"]},{"value":["2021","583674"]}],"yAxisIndex":1,"xAxisIndex":0,"name":"Servidores Ativos","type":"line","coordinateSystem":"cartesian2d"}],"title":[{"text":"Poder Executivo Civil","subtext":"Servidores x Despesas"}],"tooltip":{"trigger":"axis"}},"dispose":true},"evals":["opts.yAxis.0.axisLabel.formatter"],"jsHooks":[]}</script>
 
 </div>
 
