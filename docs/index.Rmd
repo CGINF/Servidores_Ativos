@@ -32,7 +32,7 @@ dados |>
   echarts4r::e_line(`Servidores Ativos`, y_index = 1) |>  # add secondary axis
   echarts4r::e_y_axis(formatter = e_axis_formatter("currency")) |> 
   echarts4r::e_title("Poder Executivo Civil", "Servidores x Despesas") |>  # Add title & subtitle
-  echarts4r::e_theme("infographic") |>  # theme
+  echarts4r::e_theme("infographic" ) |>  # theme
   echarts4r::e_legend(right = 0) |>  # move legend to the bottom
   echarts4r::e_tooltip(trigger = "axis") # tooltip
   
