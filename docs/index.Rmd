@@ -3,7 +3,7 @@ title: "Poder Executivo Federal: Taxa de Reposição de Servidores"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
-    vertical_layout: scroll
+    vertical_layout: fill
     theme: bootstrap
 ---
 
@@ -12,7 +12,7 @@ output:
 library(flexdashboard)
 library(scales)
 
-dados <- readr::read_csv2("data-raw/Desp_ativos.csv") |> 
+dados <- readr::read_csv2("../data-raw/Desp_ativos.csv") |> 
   janitor::clean_names()  |> dplyr::mutate(
     Ano = as.factor(ano)  
   )|>
@@ -32,7 +32,7 @@ dados |>
   echarts4r::e_line(`Servidores Ativos`, y_index = 1) |>  # add secondary axis
   echarts4r::e_y_axis(formatter = e_axis_formatter(style = "currency"
                       )) |> 
-  echarts4r::e_title(" Despesa de Pessoal no Poder Executivo Federal", "Servidores x Despesas") |>  # Add title & subtitle
+  echarts4r::e_title("Servidores x Despesas", "Despesa de Pessoal no Poder Executivo Federal") |>  # Add title & subtitle
   echarts4r::e_theme("auritus" ) |>  # theme
   echarts4r::e_legend(right = 0) |>  # move legend to the bottom
   echarts4r::e_tooltip(trigger = "axis") # tooltip
