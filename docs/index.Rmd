@@ -12,12 +12,12 @@ output:
 library(flexdashboard)
 library(scales)
 
-dados <- readr::read_csv2("../data-raw/Desp_ativos.csv") |> 
+dados <- readr::read_csv2("data-raw/Desp_ativos.csv") |> 
   janitor::clean_names()  |> dplyr::mutate(
     Ano = as.factor(ano)  
   )|>
   dplyr::rename(`Servidores Ativos` = ativos, 
-                `Desp. Liquidadada (R$ Bi)` = desp_liq)
+                `Desp. Liquidada (R$ Bi)` = desp_liq)
    
 
 
@@ -28,11 +28,11 @@ dados <- readr::read_csv2("../data-raw/Desp_ativos.csv") |>
 library(echarts4r)
 dados |> 
   echarts4r::e_charts(Ano) |> 
-  echarts4r::e_bar(serie = `Desp. Liquidadada (R$ Bi)`) |> 
+  echarts4r::e_bar(serie = `Desp. Liquidada (R$ Bi)`) |> 
   echarts4r::e_line(`Servidores Ativos`, y_index = 1) |>  # add secondary axis
   echarts4r::e_y_axis(formatter = e_axis_formatter(style = "currency"
                       )) |> 
-  echarts4r::e_title("Servidores x Despesas", "Despesa de Pessoal no Poder Executivo Federal") |>  # Add title & subtitle
+  echarts4r::e_title("Servidores x Despesas", "Poder Executivo Federal") |>  # Add title & subtitle
   echarts4r::e_theme("auritus" ) |>  # theme
   echarts4r::e_legend(right = 0) |>  # move legend to the bottom
   echarts4r::e_tooltip(trigger = "axis") # tooltip
