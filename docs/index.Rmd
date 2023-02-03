@@ -30,10 +30,15 @@ dados |>
   echarts4r::e_charts(Ano) |> 
   echarts4r::e_bar(serie = `Desp. Liquidada (R$ Bi)`) |> 
   echarts4r::e_line(`Servidores Ativos`, y_index = 1) |>  # add secondary axis
-  echarts4r::e_y_axis(formatter = e_axis_formatter(style = "currency"
-                      )) |> 
+  echarts4r::e_y_axis(formatter = e_axis_formatter(style = "currency")) |> 
+  e_format_y_axis(
+    suffix = "",
+    prefix = "R$")|>
+
+  e_locale("PT (brazil)") |>
+  e_y_axis(formatter = e_axis_formatter(style = "decimal", digits = 3), index = 1) |>
   echarts4r::e_title("Servidores x Despesas", "Poder Executivo Federal") |>  # Add title & subtitle
-  echarts4r::e_theme("auritus" ) |>  # theme
+  echarts4r::e_theme_custom('{"color":["#004580","#ef0219"]}') |>  # theme
   echarts4r::e_legend(right = 0) |>  # move legend to the bottom
   echarts4r::e_tooltip(trigger = "axis") # tooltip
   
