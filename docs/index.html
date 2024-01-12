@@ -292,20 +292,18 @@
       document.body.style.height = "100%";
       document.documentElement.style.width = "100%";
       document.documentElement.style.height = "100%";
-      if (cel) {
-        cel.style.position = "absolute";
-        var pad = unpackPadding(sizing.padding);
-        cel.style.top = pad.top + "px";
-        cel.style.right = pad.right + "px";
-        cel.style.bottom = pad.bottom + "px";
-        cel.style.left = pad.left + "px";
-        el.style.width = "100%";
-        el.style.height = "100%";
-      }
+      cel.style.position = "absolute";
+      var pad = unpackPadding(sizing.padding);
+      cel.style.top = pad.top + "px";
+      cel.style.right = pad.right + "px";
+      cel.style.bottom = pad.bottom + "px";
+      cel.style.left = pad.left + "px";
+      el.style.width = "100%";
+      el.style.height = "100%";
 
       return {
-        getWidth: function() { return cel.offsetWidth; },
-        getHeight: function() { return cel.offsetHeight; }
+        getWidth: function() { return cel.getBoundingClientRect().width; },
+        getHeight: function() { return cel.getBoundingClientRect().height; }
       };
 
     } else {
@@ -313,8 +311,8 @@
       el.style.height = px(sizing.height);
 
       return {
-        getWidth: function() { return el.offsetWidth; },
-        getHeight: function() { return el.offsetHeight; }
+        getWidth: function() { return cel.getBoundingClientRect().width; },
+        getHeight: function() { return cel.getBoundingClientRect().height; }
       };
     }
   }
@@ -538,8 +536,8 @@
 
           elementData(el, "initialized", true);
           if (bindingDef.initialize) {
-            var result = bindingDef.initialize(el, el.offsetWidth,
-              el.offsetHeight);
+            var rect = el.getBoundingClientRect();
+            var result = bindingDef.initialize(el, rect.width, rect.height);
             elementData(el, "init_result", result);
           }
         }
@@ -581,29 +579,30 @@
       forEach(matches, function(el) {
         var sizeObj = initSizing(el, binding);
 
+        var getSize = function(el) {
+          if (sizeObj) {
+            return {w: sizeObj.getWidth(), h: sizeObj.getHeight()}
+          } else {
+            var rect = el.getBoundingClientRect();
+            return {w: rect.width, h: rect.height}
+          }
+        };
+
         if (hasClass(el, "html-widget-static-bound"))
           return;
         el.className = el.className + " html-widget-static-bound";
 
         var initResult;
         if (binding.initialize) {
-          initResult = binding.initialize(el,
-            sizeObj ? sizeObj.getWidth() : el.offsetWidth,
-            sizeObj ? sizeObj.getHeight() : el.offsetHeight
-          );
+          var size = getSize(el);
+          initResult = binding.initialize(el, size.w, size.h);
           elementData(el, "init_result", initResult);
         }
 
         if (binding.resize) {
-          var lastSize = {
-            w: sizeObj ? sizeObj.getWidth() : el.offsetWidth,
-            h: sizeObj ? sizeObj.getHeight() : el.offsetHeight
-          };
+          var lastSize = getSize(el);
           var resizeHandler = function(e) {
-            var size = {
-              w: sizeObj ? sizeObj.getWidth() : el.offsetWidth,
-              h: sizeObj ? sizeObj.getHeight() : el.offsetHeight
-            };
+            var size = getSize(el);
             if (size.w === 0 && size.h === 0)
               return;
             if (size.w === lastSize.w && size.h === lastSize.h)
@@ -905,7 +904,6 @@
     return result;
   }
 })();
-
 </script>
 <script>
 /*
@@ -1449,14 +1447,183 @@ if (HTMLWidgets.shinyMode) {
   
 }
 </script>
-<script src="lib/PT%20%28BRAZIL%29-echarts4r-locale-0.4.4/langPT%20%28BRAZIL%29.js"></script>
+<script>
+
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
+
+/**
+ * AUTO-GENERATED FILE. DO NOT MODIFY.
+ */
+(function(root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['exports', 'echarts'], factory);
+    } else if (
+        typeof exports === 'object' &&
+        typeof exports.nodeName !== 'string'
+    ) {
+        // CommonJS
+        factory(exports, require('echarts/lib/echarts'));
+    } else {
+        // Browser globals
+        factory({}, root.echarts);
+    }
+})(this, function(exports, echarts) {
+
+
+/**
+ * Language: Portuguese (Brazil).
+ */
+
+var localeObj = {
+    time: {
+        month: [
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ],
+        monthAbbr: [
+            'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+            'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+        ],
+        dayOfWeek: [
+            'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
+'Quinta-feira', 'Sexta-feira', 'Sábado'
+        ],
+        dayOfWeekAbbr: [
+            'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
+        ]
+    },
+    legend: {
+        selector: {
+            all: 'Todas',
+            inverse: 'Inv'
+        }
+    },
+    toolbox: {
+        brush: {
+            title: {
+                rect: 'Seleção retangular',
+                polygon: 'Seleção em laço',
+                lineX: 'Selecionar horizontalmente',
+                lineY: 'Selecionar verticalmente',
+                keep: 'Manter seleções',
+                clear: 'Limpar seleções'
+            }
+        },
+        dataView: {
+            title: 'Exibição de dados',
+            lang: ['Exibição de dados', 'Fechar', 'Atualizar']
+        },
+        dataZoom: {
+            title: {
+                zoom: 'Zoom',
+                back: 'Restaurar Zoom'
+            }
+        },
+        magicType: {
+            title: {
+                line: 'Trocar para gráfico de linhas',
+                bar: 'Trocar para gráfico de barras',
+                stack: 'Empilhar',
+                tiled: 'Tile'
+            }
+        },
+        restore: {
+            title: 'Restore'
+        },
+        saveAsImage: {
+            title: 'Salvar como imagem',
+            lang: ['Clique com o botão direito para salvar imagem']
+        }
+    },
+    series: {
+        typeNames: {
+            pie: 'Gráfico de pizza',
+            bar: 'Gráfico de barras',
+            line: 'Gráfico de linhas',
+            scatter: 'Gráfico de dispersão',
+            effectScatter: 'Gráfico de dispersão ondulado',
+            radar: 'Gráfico radar',
+            tree: 'Árvore',
+            treemap: 'Treemap',
+            boxplot: 'Boxplot',
+            candlestick: 'Candlestick',
+            k: 'Gráfico K line',
+            heatmap: 'Mapa de calor',
+            map: 'Mapa',
+            parallel: 'Coordenadas paralelas',
+            lines: 'Gráfico de linhas',
+            graph: 'Relationship graph',
+            sankey: 'Gráfico Sankey',
+            funnel: 'Gráfico de funil',
+            gauge: 'Gauge',
+            pictorialBar: 'Pictorial bar',
+            themeRiver: 'Theme River Map',
+            sunburst: 'Sunburst'
+        }
+    },
+    aria: {
+        general: {
+            withTitle: 'Este é um gráfico entitulado "{title}"',
+            withoutTitle: 'Este é um gráfico'
+        },
+        series: {
+            single: {
+                prefix: '',
+                withName: ' do tipo {seriesType} nomeada/nomeado como {seriesName}.',
+                withoutName: ' do tipo {seriesType}.'
+            },
+            multiple: {
+                prefix: '. Consiste de {seriesCount} séries.',
+                withName: ' A {seriesId} série é um/uma {seriesType} representando {seriesName}.',
+                withoutName: ' A {seriesId} series é um/uma {seriesType}.',
+                separator: {
+                    middle: '',
+                    end: ''
+                }
+            }
+        },
+        data: {
+            allData: 'Os dados são: ',
+            partialData: 'As primeiros {displayCnt} itens são: ',
+            withName: 'os dados para {name} são {value}',
+            withoutName: '{value}',
+            separator: {
+                middle: ', ',
+                end: '. '
+            }
+        }
+    }
+};
+
+    echarts.registerLocale('PT-br', localeObj);
+        
+});</script>
 
 </head>
 <body>
 <div id="htmlwidget_container">
-  <div id="htmlwidget-0df67ccab435f7c35cb9" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+  <div class="echarts4r html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-4d304d901be2845c8968" style="width:100%;height:500px;"></div>
 </div>
-<script type="application/json" data-for="htmlwidget-0df67ccab435f7c35cb9">{"x":{"theme":"custom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true,"axisLabel":{"formatter":"R$ {value} "}},{"type":"value","axisLabel":{"formatter":"function(value, index) {\n        var fmt = new Intl.NumberFormat('en', {\"style\":\"decimal\",\"minimumFractionDigits\":3,\"maximumFractionDigits\":3,\"currency\":\"USD\"});\n        return fmt.format(value);\n    }"}}],"xAxis":[{"data":["1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"],"type":"category","boundaryGap":true}],"legend":{"data":["Desp. Liquidada (R$ Bi)","Servidores Ativos"],"show":true,"type":"plain","right":0},"series":[{"data":[{"value":["1998","12.65"]},{"value":["1999","14.91"]},{"value":["2000","16.22"]},{"value":["2001","17.19"]},{"value":["2002","19.65"]},{"value":["2003","20.63"]},{"value":["2004","25.72"]},{"value":["2005","26.49"]},{"value":["2006","30.81"]},{"value":["2007","35.23"]},{"value":["2008","40.96"]},{"value":["2009","48.62"]},{"value":["2010","55.59"]},{"value":["2011","60.29"]},{"value":["2012","62.19"]},{"value":["2013","68.64"]},{"value":["2014","74.15"]},{"value":["2015","80.57"]},{"value":["2016","83.53"]},{"value":["2017","92.50"]},{"value":["2018","93.88"]},{"value":["2019","94.24"]},{"value":["2020","94.09"]},{"value":["2021","95.61"]},{"value":["2022","95.68"]}],"name":"Desp. Liquidada (R$ Bi)","type":"bar","yAxisIndex":0,"xAxisIndex":0,"coordinateSystem":"cartesian2d"},{"data":[{"value":["1998","513.720"]},{"value":["1999","497.125"]},{"value":["2000","486.912"]},{"value":["2001","485.303"]},{"value":["2002","485.741"]},{"value":["2003","485.980"]},{"value":["2004","499.138"]},{"value":["2005","508.963"]},{"value":["2006","528.124"]},{"value":["2007","528.320"]},{"value":["2008","545.241"]},{"value":["2009","562.264"]},{"value":["2010","580.352"]},{"value":["2011","585.119"]},{"value":["2012","590.843"]},{"value":["2013","602.695"]},{"value":["2014","624.095"]},{"value":["2015","627.427"]},{"value":["2016","632.485"]},{"value":["2017","634.157"]},{"value":["2018","630.689"]},{"value":["2019","607.833"]},{"value":["2020","599.852"]},{"value":["2021","583.674"]},{"value":["2022","564.999"]}],"yAxisIndex":1,"xAxisIndex":0,"name":"Servidores Ativos","type":"line","coordinateSystem":"cartesian2d"}],"title":[{"text":"Servidores x Despesas","subtext":"Poder Executivo Federal"}],"tooltip":{"trigger":"axis"}},"dispose":true,"mainOpts":{"locale":"PT (BRAZIL)"},"theme2":true,"customTheme":"{\"color\":[\"#004580\",\"#ef0219\"]}","theme_name":"custom"},"evals":["opts.yAxis.1.axisLabel.formatter"],"jsHooks":[]}</script>
-<script type="application/htmlwidget-sizing" data-for="htmlwidget-0df67ccab435f7c35cb9">{"viewer":{"width":"100%","height":350,"padding":0,"fill":true},"browser":{"width":"100%","height":500,"padding":0,"fill":true}}</script>
+<script type="application/json" data-for="htmlwidget-4d304d901be2845c8968">{"x":{"theme":"custom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true,"axisLabel":{"formatter":"R$ {value} "}},{"type":"value","axisLabel":{"formatter":"function(value, index) {\n        var fmt = new Intl.NumberFormat('en', {\"style\":\"decimal\",\"minimumFractionDigits\":3,\"maximumFractionDigits\":3,\"currency\":\"USD\"});\n        return fmt.format(value);\n    }"}}],"xAxis":[{"data":["1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023"],"type":"category","boundaryGap":true}],"legend":{"data":["Desp. Liquidada (R$ Bi)","Servidores Ativos"],"show":true,"type":"plain","right":0},"series":[{"data":[{"value":["1998"," 12.65"]},{"value":["1999"," 14.91"]},{"value":["2000"," 16.22"]},{"value":["2001"," 17.19"]},{"value":["2002"," 19.65"]},{"value":["2003"," 20.63"]},{"value":["2004"," 25.72"]},{"value":["2005"," 26.49"]},{"value":["2006"," 30.81"]},{"value":["2007"," 35.23"]},{"value":["2008"," 40.96"]},{"value":["2009"," 48.62"]},{"value":["2010"," 55.59"]},{"value":["2011"," 60.29"]},{"value":["2012"," 62.19"]},{"value":["2013"," 68.64"]},{"value":["2014"," 74.15"]},{"value":["2015"," 80.57"]},{"value":["2016"," 83.53"]},{"value":["2017"," 92.50"]},{"value":["2018"," 93.88"]},{"value":["2019"," 94.24"]},{"value":["2020"," 94.09"]},{"value":["2021"," 95.61"]},{"value":["2022"," 95.68"]},{"value":["2023","101.02"]}],"name":"Desp. Liquidada (R$ Bi)","type":"bar","yAxisIndex":0,"xAxisIndex":0,"coordinateSystem":"cartesian2d"},{"data":[{"value":["1998","513.720"]},{"value":["1999","497.125"]},{"value":["2000","486.912"]},{"value":["2001","485.303"]},{"value":["2002","485.741"]},{"value":["2003","485.980"]},{"value":["2004","499.138"]},{"value":["2005","508.963"]},{"value":["2006","528.124"]},{"value":["2007","528.320"]},{"value":["2008","545.241"]},{"value":["2009","562.264"]},{"value":["2010","580.352"]},{"value":["2011","585.119"]},{"value":["2012","590.843"]},{"value":["2013","602.695"]},{"value":["2014","624.095"]},{"value":["2015","627.427"]},{"value":["2016","632.485"]},{"value":["2017","634.157"]},{"value":["2018","630.689"]},{"value":["2019","607.833"]},{"value":["2020","599.852"]},{"value":["2021","583.674"]},{"value":["2022","564.999"]},{"value":["2023","571.873"]}],"yAxisIndex":1,"xAxisIndex":0,"name":"Servidores Ativos","type":"line","coordinateSystem":"cartesian2d"}],"title":[{"text":"Servidores x Despesas","subtext":"Poder Executivo Federal"}],"tooltip":{"trigger":"axis"}},"dispose":true,"mainOpts":{"locale":"PT-BR"},"theme2":true,"customTheme":"{\"color\":[\"#004580\",\"#ef0219\"]}","theme_name":"custom"},"evals":["opts.yAxis.1.axisLabel.formatter"],"jsHooks":[]}</script>
+<script type="application/htmlwidget-sizing" data-for="htmlwidget-4d304d901be2845c8968">{"viewer":{"width":"100%","height":350,"padding":0,"fill":true},"browser":{"width":"100%","height":500,"padding":0,"fill":true}}</script>
 </body>
 </html>
